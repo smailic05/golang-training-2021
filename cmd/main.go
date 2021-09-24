@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -33,7 +34,7 @@ func main() {
 
 	ctxDb, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctxDb, options.Client().ApplyURI(cfg.DBConnString))
+	client, err := mongo.Connect(ctxDb, options.Client().ApplyURI(strings.TrimSpace(cfg.DBConnString)))
 	if err != nil {
 		logger.Fatal().Err(err).Msg("Mongo init failed")
 	}

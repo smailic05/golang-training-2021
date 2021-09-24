@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/andreipimenov/golang-training-2021/internal/model"
@@ -54,7 +55,7 @@ func (s *Service) GetPrice(ticker string, date time.Time) (*model.Price, error) 
 		return &p, nil
 	}
 
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(stockAPIFormat, ticker, s.apiKey), nil)
+	req, err := http.NewRequest(http.MethodGet, strings.TrimSpace(fmt.Sprintf(stockAPIFormat, ticker, s.apiKey)), nil)
 	if err != nil {
 		return nil, err
 	}
