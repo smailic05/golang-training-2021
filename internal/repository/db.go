@@ -38,14 +38,13 @@ func (db *DB) Load(key string) (model.Price, bool) {
 
 func (db *DB) Store(key string, value model.Price) {
 	ticker, date := splitKey(key)
-	var open, high, low, close string
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	_, err := db.InsertOne(ctx, bson.M{"ticker": ticker, "open": open,
-		"high": high, "low": low,
-		"close": close, "date": date})
+	_, err := db.InsertOne(ctx, bson.M{"ticker": ticker, "open": value.Open,
+		"high": value.High, "low": value.Low,
+		"close": value.Close, "date": date})
 
 	if err != nil {
 		//creating a new logger to not edit the interface
